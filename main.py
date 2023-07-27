@@ -20,16 +20,17 @@ MB_APP_NAME = os.environ.get('MB_APP_NAME')
 MB_APP_VERSION = os.environ.get('MB_APP_VERSION')
 MB_CONTACT = os.environ.get('MB_CONTACT')
 
-# set the logging level based on the --log option; default INFO
+# set the logging level based on the --log option;
 parser = argparse.ArgumentParser()
-parser.add_argument("--log", help="set log level")
+parser.add_argument("--log", help="set log level (info [default], debug, error)")
 args = parser.parse_args()
-logging.basicConfig(level=logging.INFO)
 if args.log:
     num_log_level = getattr(logging, args.log.upper(), None)
     if not isinstance(num_log_level, int):
         raise ValueError('Invalid log level: %s' % args.log)
     logging.basicConfig(level=num_log_level)
+else:
+    logging.basicConfig(level=logging.INFO)
 
 now_playing = None
 
@@ -45,6 +46,7 @@ def get_status():
     global now_playing
 
     listen = client.get_playing_now(LISTENBRAINZ_USER)
+
     logging.debug('get_playing_now()')
     logging.debug(pformat(vars(listen)))
 

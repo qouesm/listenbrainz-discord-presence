@@ -48,3 +48,9 @@ cp .env.template .env
 ```
 python main.py
 ```
+
+- (Optional) Run the application with debug logs
+
+```
+python main.py --log debug
+```
